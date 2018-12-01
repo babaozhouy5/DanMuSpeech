@@ -5,6 +5,13 @@ import os
 import md5
 import json
 import random
+import unicodedata
+
+def wide_chars(s):
+    return sum(unicodedata.east_asian_width(x)=='W' for x in s)
+
+def width(s):
+    return len(s) + wide_chars(s)
 
 def assertUTF8(text):
     flag = True
@@ -30,7 +37,7 @@ def writeConf(conf, conf_path="./config"):
     with open(conf_path, "w") as fw:
         conf = json.dumps(conf, indent=4, sort_keys=True)
         fw.write(conf)
-    
+
 def which(program):
     def is_exe(fpath):
         return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
@@ -89,6 +96,6 @@ if __name__ == "__main__":
     if not which("ffmpeg.exe"):
         print("ffmpeg: Executable not found on machine.")
         raise Exception("Dependency not found: ffmpeg.exe")
-    
+
     color = Colored()
     print(color.red('I am red!'))

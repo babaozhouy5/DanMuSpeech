@@ -8,7 +8,7 @@ from Player import Player
 
 import time, sys, random
 from danmu import DanMuClient
-from utils import Colored
+from utils import *
 
 random.seed(None)
 color = Colored()
@@ -31,12 +31,13 @@ def pp(msg):
     colors = ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white', 'black']
     color_name = random.choice(colors)
     color_render = getattr(color, color_name)
-    print(color_render(msg.encode(sys.stdin.encoding, 'ignore').decode(sys.stdin.encoding)))
+    msg = msg.encode(sys.stdin.encoding, 'ignore').decode(sys.stdin.encoding)
+    print(color_render(msg))
 
 @dmc.danmu
 def danmu_fn(msg):
-    text = '[%s] >> %s' % (msg['NickName'], msg['Content'])
-    pp(text.strip())
+    text = '[%*s] >> %s' % (20-wide_chars(msg['NickName']), msg['NickName'], msg['Content'])
+    pp(text)
     text = msg['NickName'] + u'说' + msg['Content']
     textVoice = t2s.getT2S(text.encode('utf-8'))
     if not TASK_QUEUE.full():
@@ -45,12 +46,12 @@ def danmu_fn(msg):
 
 @dmc.gift
 def gift_fn(msg):
-    text = msg['NickName'] + u'送礼物了'
+    text = '[%*s] >> %s' % (20-wide_chars(msg['NickName']), msg['NickName'], u'送礼物了')
     pp(text)
 
-@dmc.other
-def other_fn(msg):
-    pp(u'收到其它消息')
+#@dmc.other
+#def other_fn(msg):
+#    pp(u'收到其它消息')
 
 player.start()
 dmc.start(blockThread=True)
