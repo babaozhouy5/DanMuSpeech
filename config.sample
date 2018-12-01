@@ -1,0 +1,16 @@
+{
+    "XXX": "This is a sample Baidu text2speech config file",
+    "appKey": "xxxxxxxx",
+    "appSecret": "xxxxxxxxxxxxx",
+    "token": {
+        "accessToken": "xxxxx",
+        "expire": xxxxx,
+        "grant_type": "client_credentials",
+        "method": "post",
+        "url": "https://openapi.baidu.com/oauth/2.0/token"
+    },
+    "vts": {
+        "method": "get",
+        "url": "http://tsn.baidu.com/text2audio"
+    }
+}
