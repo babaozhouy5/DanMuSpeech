@@ -19,21 +19,19 @@ class Player(threading.Thread):
             lock.acquire()
             if not self.queue.empty():
                 voiceStream = self.queue.get()
-                playStream(voiceStream)
-                lock.release()
-            else:
-                lock.release()
+                self.playStream(voiceStream)
+            lock.release()
             time.sleep(1)
 
-def playStream(stream):
-    with open("output.mp3", "wb") as fw:
-        fw.write(stream)
+    def playStream(self, stream):
+        with open("output.mp3", "wb") as fw:
+            fw.write(stream)
 
-    fname = "output.mp3" # temp.name
-    exe = "ffplay" if sys.platform.find('darwin')>=0 else "ffplay.exe"
-    if not which(exe):
-        print("ffplay: Executable not found on machine.")
-        raise Exception("Dependency not found: %s" % exe)
+        fname = "output.mp3" # temp.name
+        exe = "ffplay" if sys.platform.find('darwin')>=0 else "ffplay.exe"
+        if not which(exe):
+            print("ffplay: Executable not found on machine.")
+            raise Exception("Dependency not found: %s" % exe)
 
-    command = [which(exe), "-vn", "-nodisp", "-autoexit", "-loglevel", "error", "-i", fname, "-af", "volume=0.5"]
-    subprocess.check_output(command)
+        command = [which(exe), "-vn", "-nodisp", "-autoexit", "-loglevel", "error", "-i", fname, "-af", "volume=0.5"]
+        subprocess.check_output(command)
