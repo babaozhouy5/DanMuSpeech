@@ -25,7 +25,7 @@ class T2S(object):
         if not reqMethod:
             print("Method [{}] doesn't support!".format(method))
             return None
-        req = reqMethod(url, data=data, params=data)
+        req = reqMethod(url, data=data, params=data, timeout=5)
         if req.status_code != 200:
             return None
         return req
