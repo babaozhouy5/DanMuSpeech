@@ -7,8 +7,10 @@ import json
 import random
 import unicodedata
 
+ZH_PUNCT = [u'？', u'！', u'。', u'，', u'、', u'：', u"“", u"”", u"（", u"）", u"；", u"《", u"》"]
+
 def wide_chars(s):
-    return sum(unicodedata.east_asian_width(x)=='W' for x in s)
+    return sum(unicodedata.east_asian_width(x)=='W' or x in ZH_PUNCT for x in s)
 
 def width(s):
     return len(s) + wide_chars(s)
