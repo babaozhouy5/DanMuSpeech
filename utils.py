@@ -94,8 +94,13 @@ if __name__ == "__main__":
     print(uniqueString(100))
 
     writeConf({'a':1, 'b':2, 'c':{'d':3, 'e':5}}, 'test.conf')
+    conf = loadConf('test.conf')
+    print(conf)
 
-    if not which("ffmpeg.exe"):
+    exe = which("ffmpeg")
+    if exe:
+        print(exe)
+    else:
         print("ffmpeg: Executable not found on machine.")
         raise Exception("Dependency not found: ffmpeg.exe")
 
